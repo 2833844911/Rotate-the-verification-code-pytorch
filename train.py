@@ -46,8 +46,8 @@ class CustomResNet50(nn.Module):
         # x = self.sfm(x)
         return x
 
-# resnet = CustomResNet50(num_classes=num_classes)
-resnet = torch.load('./modelyzm.pth')
+resnet = CustomResNet50(num_classes=num_classes)
+# resnet = torch.load('./modelyzm.pth')
 resnet.to(device)
 
 def get_jpg_paths(folder_path):
