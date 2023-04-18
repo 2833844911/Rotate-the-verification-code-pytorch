@@ -25,7 +25,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 num_classes = 360
 
 
- # 导入图片大小
+ # 导入图片大小要为正方形
 daorimg = (480, 480)
 
 class CustomResNet50(nn.Module):
