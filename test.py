@@ -28,10 +28,15 @@ class CustomResNet50(nn.Module):
         x = self.fc(x)
         return x
 
-
+def crop_max_square(img):
+    size = min(img.shape[:2])
+    x = (img.shape[1] - size) // 2
+    y = (img.shape[0] - size) // 2
+    return img[y:y+size, x:x+size]
 def getImgae(path):
     print(path)
     img = cv2.imread(path)
+    img = crop_max_square(img)
     rotated =cv2.resize(img, (480, 480), interpolation=cv2.INTER_AREA)
     center = (rotated.shape[1] // 2, rotated.shape[0] // 2)
     mask = np.zeros((rotated.shape[0], rotated.shape[1]), dtype=np.uint8)
