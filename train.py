@@ -26,7 +26,7 @@ num_classes = 360
 
 
  # 导入图片大小
-daorimg = (480, 640)
+daorimg = (480, 480)
 
 class CustomResNet50(nn.Module):
     def __init__(self, num_classes=num_classes):
