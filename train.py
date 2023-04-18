@@ -25,7 +25,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 num_classes = 360
 
 
- # 导入图片大小要为正方形
+ # 导入图片大小
 daorimg = (480, 480)
 
 class CustomResNet50(nn.Module):
@@ -46,17 +46,21 @@ class CustomResNet50(nn.Module):
         # x = self.sfm(x)
         return x
 
-resnet = CustomResNet50(num_classes=num_classes)
-# resnet = torch.load('./modelyzm.pth')
+# resnet = CustomResNet50(num_classes=num_classes)
+resnet = torch.load('./modelyzm.pth')
 resnet.to(device)
 
 def get_jpg_paths(folder_path):
     jpg_paths = []
     for file in os.listdir(folder_path):
         jpg_paths.append(folder_path+'/'+file)
-        
-    return jpg_paths
 
+    return jpg_paths
+def crop_max_square(img):
+    size = min(img.shape[:2])
+    x = (img.shape[1] - size) // 2
+    y = (img.shape[0] - size) // 2
+    return img[y:y+size, x:x+size]
 folder_path = './imgs'
 allfile = get_jpg_paths(folder_path)
 random.shuffle(allfile)
@@ -91,12 +95,16 @@ class data_Dataset(Dataset):
     def __init__(self, data) -> None:
         super().__init__()
         self.data = data
-    
+
     def __getitem__(self, index):
         tmfile = self.data[index]
         data = cv2.imread(tmfile)
+        data = crop_max_square(data)
         data = add_gaussian_noise(data)
-       
+        # cv2截取图片最大正方形
+
+
+
         data =cv2.resize(data, daorimg, interpolation=cv2.INTER_AREA)
         angle =45
         # 计算旋转矩阵
