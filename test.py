@@ -36,14 +36,15 @@ def crop_max_square(img):
 def getImgae(path):
     print(path)
     img = cv2.imread(path)
-    img = crop_max_square(img)
+    # img = crop_max_square(img)
     rotated =cv2.resize(img, (480, 480), interpolation=cv2.INTER_AREA)
-    center = (rotated.shape[1] // 2, rotated.shape[0] // 2)
-    mask = np.zeros((rotated.shape[0], rotated.shape[1]), dtype=np.uint8)
-    x, y = np.meshgrid(np.arange(rotated.shape[1]), np.arange(rotated.shape[0]))
-    dist = np.sqrt((x - center[0])**2 + (y - center[1])**2)
-    mask[dist <= rotated.shape[0] // 2] = 255
-    img = cv2.bitwise_and(rotated, rotated, mask=mask)
+    # center = (rotated.shape[1] // 2, rotated.shape[0] // 2)
+    img = rotated
+    # mask = np.zeros((rotated.shape[0], rotated.shape[1]), dtype=np.uint8)
+    # x, y = np.meshgrid(np.arange(rotated.shape[1]), np.arange(rotated.shape[0]))
+    # dist = np.sqrt((x - center[0])**2 + (y - center[1])**2)
+    # mask[dist <= rotated.shape[0] // 2] = 255
+    # img = cv2.bitwise_and(rotated, rotated, mask=mask)
     # cv2.imshow('Rotated Image', img)
     # cv2.waitKey(0)
     # cv2.destroyAllWindows()
@@ -58,26 +59,41 @@ def getImgae(path):
     img_tensor = img_tensor.to(device)
     return img_tensor
 
+def getDu(data):
+    k = data.tolist()[0]
+    for i in range(len(k)):
+        k[i] = [k[i], i]
+    k.sort()
+    k = k[::-1]
+
+    print()
+    return k[0][1]
 
 
 resnet = torch.load('./modelyzm.pth')
 resnet.to(device)
 
 # 需要识别的图片
-pathfile = './test/49_320.jpg'
+pathfile = './test/29_37.jpg'
+pathfile = './test/104_257.jpg'
+# pathfile = './test/105_101.jpg'
+# pathfile = './test/115_101.jpg'
+# pathfile = './test/294_181.jpg'
+# pathfile = './test/321_219.jpg'
 imgTensor = getImgae(pathfile)
 # print(imgTensor.shape)
 outInfo = resnet(imgTensor)
-k,o = torch.max(outInfo, dim=1)
+o = getDu(outInfo)
+
 
 # 展示图片
-angle =360-o[0].item()
+angle = o
 print("旋转角度",angle)
 # 计算旋转矩阵
 data = cv2.imread(pathfile)
 center = (data.shape[1] // 2, data.shape[0] // 2)
 scale = 1
-M = cv2.getRotationMatrix2D(center, angle, scale)
+M = cv2.getRotationMatrix2D(center,  360 - angle, scale)
 
 # 应用旋转矩阵
 rotated = cv2.warpAffine(data, M, (data.shape[1], data.shape[0]))
