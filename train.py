@@ -107,7 +107,7 @@ class data_Dataset(Dataset):
 
 
         data =cv2.resize(data, daorimg, interpolation=cv2.INTER_AREA)
-        angle =45
+        
         # 计算旋转矩阵
         center = (data.shape[1] // 2, data.shape[0] // 2)
         angle = random.randint(0, num_classes-1)
