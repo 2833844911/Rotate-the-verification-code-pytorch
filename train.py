@@ -34,8 +34,8 @@ class CustomResNet50(nn.Module):
         resnet50 = models.resnet50(pretrained=True)
         self.resnet_layers = nn.Sequential(*list(resnet50.children())[:-1])
         self.flatten = nn.Flatten()
-        # self.fc = nn.Linear(2048, num_classes)
-        self.fc = nn.Linear(8192, num_classes)
+        self.fc = nn.Linear(2048, num_classes)
+        # self.fc = nn.Linear(8192, num_classes)
         # self.sfm = nn.Softmax(1)
 
     def forward(self, x):
