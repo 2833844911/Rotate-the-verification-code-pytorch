@@ -115,7 +115,7 @@ class data_Dataset(Dataset):
         M = cv2.getRotationMatrix2D(center, angle, scale)
 
         # 应用旋转矩阵
-        rotated = cv2.warpAffine(data, M, (data.shape[1], data.shape[0]))
+        rotated = cv2.warpAffine(data, M, (data.shape[1], data.shape[0]),borderValue=(255,255,255))
         
         # 中心圆圈裁剪
         mask = np.zeros((rotated.shape[0], rotated.shape[1]), dtype=np.uint8)
