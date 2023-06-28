@@ -20,8 +20,8 @@ from tqdm import tqdm
 os.environ['CUDA_LAUNCH_BLOCKING'] = '1'
 # 将模型移动到GPU上（如果有可用的话）
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-# 加载ResNet50模型
-# resnet = models.resnet50(pretrained=True)
+
+
 num_classes = 360
 
 
@@ -31,6 +31,7 @@ daorimg = (480, 480)
 class CustomResNet50(nn.Module):
     def __init__(self, num_classes=num_classes):
         super(CustomResNet50, self).__init__()
+        # 加载ResNet50模型
         resnet50 = models.resnet50(pretrained=True)
         self.resnet_layers = nn.Sequential(*list(resnet50.children())[:-1])
         self.flatten = nn.Flatten()
