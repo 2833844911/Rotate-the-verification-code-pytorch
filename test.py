@@ -74,8 +74,8 @@ resnet = torch.load('./modelyzm.pth')
 resnet.to(device)
 
 # 需要识别的图片
-pathfile = './test/29_37.jpg'
-pathfile = './test/104_257.jpg'
+pathfile = './test/5_110.jpg'
+# pathfile = './test/104_257.jpg'
 # pathfile = './test/105_101.jpg'
 # pathfile = './test/115_101.jpg'
 # pathfile = './test/294_181.jpg'
