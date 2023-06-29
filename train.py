@@ -134,7 +134,7 @@ class data_Dataset(Dataset):
 train_dataset = data_Dataset(tranfiles)
 
 test_dataset = data_Dataset(textfiles)
-batch_size = 10
+batch_size = 4
 train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
 test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
 
