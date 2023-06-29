@@ -19,13 +19,12 @@ class CustomResNet50(nn.Module):
         self.flatten = nn.Flatten()
         # self.fc = nn.Linear(2048, num_classes)
         self.fc = nn.Linear(8192, num_classes)
-        self.sfm = nn.Sigmoid()
+
 
     def forward(self, x):
         x = self.resnet_layers(x)
         x = self.flatten(x)
         x = self.fc(x)
-        x = self.sfm(x)
         return x
 
 def crop_max_square(img):
