@@ -62,7 +62,7 @@ def getDu(data):
     return k[0][1]
 
 
-resnet = torch.load('./modelyzm.pth')
+resnet = torch.load('./modelyzm.pth',map_location=device)
 resnet.to(device)
 
 # 需要识别的图片
