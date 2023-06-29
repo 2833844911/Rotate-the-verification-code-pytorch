@@ -2,7 +2,7 @@
 ### 2. 运行train.py进行训练
 ### 3. 运行test.py调用模型
 
-训练好的模型
+训练好的模型 [只能识别百度旋转的图片，不要用其他图片测试，直接用百度旋转的图片测试]
 链接：https://pan.baidu.com/s/1mcz58nquhL0DA8tCX5f_ww 
 提取码：39ev 
 
