@@ -8,8 +8,7 @@ import torchvision.models as models
 os.environ['CUDA_LAUNCH_BLOCKING'] = '1'
 # 将模型移动到GPU上（如果有可用的话）
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-# 加载ResNet50模型
-# resnet = models.resnet50(pretrained=True)
+
 num_classes = 360
 
 class CustomResNet50(nn.Module):
@@ -20,12 +19,13 @@ class CustomResNet50(nn.Module):
         self.flatten = nn.Flatten()
         # self.fc = nn.Linear(2048, num_classes)
         self.fc = nn.Linear(8192, num_classes)
+        self.sfm = nn.Sigmoid()
 
     def forward(self, x):
-        # print(x.shape)
         x = self.resnet_layers(x)
         x = self.flatten(x)
         x = self.fc(x)
+        x = self.sfm(x)
         return x
 
 def crop_max_square(img):
@@ -36,18 +36,11 @@ def crop_max_square(img):
 def getImgae(path):
     print(path)
     img = cv2.imread(path)
-    # img = crop_max_square(img)
+
     rotated =cv2.resize(img, (480, 480), interpolation=cv2.INTER_AREA)
-    # center = (rotated.shape[1] // 2, rotated.shape[0] // 2)
+
     img = rotated
-    # mask = np.zeros((rotated.shape[0], rotated.shape[1]), dtype=np.uint8)
-    # x, y = np.meshgrid(np.arange(rotated.shape[1]), np.arange(rotated.shape[0]))
-    # dist = np.sqrt((x - center[0])**2 + (y - center[1])**2)
-    # mask[dist <= rotated.shape[0] // 2] = 255
-    # img = cv2.bitwise_and(rotated, rotated, mask=mask)
-    # cv2.imshow('Rotated Image', img)
-    # cv2.waitKey(0)
-    # cv2.destroyAllWindows()
+
     transform = transforms.Compose([
         transforms.ToTensor()
     ])
